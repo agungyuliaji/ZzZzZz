@@ -20,4 +20,14 @@
 #
 class SleepRecord < ApplicationRecord
   belongs_to :user
+
+  validates :clock_in_time, :clock_out_time, presence: true
+
+  before_create :calculate_duration
+
+  private
+
+  def calculate_duration
+    clock_in_time = clock_out_time - clock_in_time
+  end
 end
