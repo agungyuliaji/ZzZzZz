@@ -34,6 +34,19 @@ RSpec.describe User, type: :model do
       subject.clock_out_time = Time.current + 1.hour
       expect(subject).to be_valid
     end
+
+    it 'is not valid if sleep! is called more than once without wake_up!' do
+      subject.sleep!(Time.current)
+      subject.sleep!(Time.current + 1.hour)
+      expect(subject).to_not be_valid
+      expect(subject.errors[:clock_in_time]).to include("already sleeping at #{subject.clock_in_time_was}")
+    end
+
+    it 'is not valid if wake_up! is called without sleep!' do
+      subject.clock_out_time = Time.current
+      expect(subject).to_not be_valid
+      expect(subject.errors[:clock_out_time]).to include("clock_in_time is blank")
+    end
   end
 
   describe '#sleep!' do
