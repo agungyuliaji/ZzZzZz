@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # new_time = Time.zone.parse("2014-10-19 1:00:00")
-
   describe 'validations' do
     subject { User.new(name: "John Doe") }
 
@@ -49,6 +47,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'callbacks' do
+    let(:user) { User.create(name: "John Doe") }
+
+    context 'creates a sleep_record after saving when both clock_in_time and clock_out_time are present' do
+      it '' do
+        user.sleep!(Time.now)
+        user.wake_up!(Time.now + 1.hour)
+
+        expect(user.sleep_records.count).to eq(1)
+        expect(user.clock_in_time).to be_nil
+        expect(user.clock_out_time).to be_nil
+      end
+    end
+  end
+
   describe '#sleep!' do
     let(:user) { User.create(name: "John Doe") }
 
@@ -63,11 +76,11 @@ RSpec.describe User, type: :model do
   describe '#wake_up!' do
     let(:user) { User.create(name: "John Doe", clock_in_time: Time.current) }
 
-    it 'sets the clock_out_time to the current time' do
+    it 'sets the clock_out_time to nil' do
       freeze_time
       current_time = Time.current
       user.wake_up!(current_time)
-      expect(user.clock_out_time).to eq(current_time)
+      expect(user.clock_out_time).to eq(nil)
     end
   end
 

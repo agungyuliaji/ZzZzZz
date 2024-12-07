@@ -15,6 +15,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validate :validate_clock_out_time
 
+  after_save :record_data
+
   def sleep!(sleep_time = Time.current)
     update(clock_in_time: sleep_time)
   end
@@ -46,6 +48,16 @@ class User < ApplicationRecord
     # 🚫 clock_out_time less than clock_in_time
     if clock_in_time.present? && clock_out_time.present? && (clock_out_time < clock_in_time)
       return errors.add(:clock_out_time, "must be after clock_in_time")
+    end
+  end
+
+  def record_data
+    if clock_in_time.present? && clock_out_time.present?
+      self.sleep_records.create!(
+        clock_in_time: clock_in_time,
+        clock_out_time: clock_out_time
+      )
+      self.reset!
     end
   end
 end
