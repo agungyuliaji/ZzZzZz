@@ -15,11 +15,11 @@ class User < ApplicationRecord
   validates :name, presence: true
   validate :validate_clock_out_time
 
-  def sleep!(sleep_time = Time.now)
+  def sleep!(sleep_time = Time.current)
     update(clock_in_time: sleep_time)
   end
 
-  def wake_up!(wake_up_time = Time.now)
+  def wake_up!(wake_up_time = Time.current)
     update(clock_out_time: wake_up_time)
   end
 
