@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  clock_in_time: 2024-12-07 13:44:16
+  clock_out_time: 2024-12-07 13:44:16
+  duration: 1
+
+two:
+  user: two
+  clock_in_time: 2024-12-07 13:44:16
+  clock_out_time: 2024-12-07 13:44:16
+  duration: 1

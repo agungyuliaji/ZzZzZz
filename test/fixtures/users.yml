@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  clock_in_time: 2024-12-07 13:43:23
+  clock_out_time: 2024-12-07 13:43:23
+
+two:
+  name: MyString
+  clock_in_time: 2024-12-07 13:43:23
+  clock_out_time: 2024-12-07 13:43:23
