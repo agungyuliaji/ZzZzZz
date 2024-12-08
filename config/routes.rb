@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post "social/follow"
+  post "social/unfollow"
+
   namespace :sleep_records do
     post "operation/sleep"
     post "operation/wake_up"
