@@ -2,11 +2,17 @@ class SleepRecords::FeedController < ApplicationController
   before_action :set_user
 
   def my_records
-    @records = @user.sleep_records.order('created_at DESC').page(params[:page]).per(50)
+    @records = @user.sleep_records
+      .order('created_at DESC')
+      .page(params[:page]).per(50)
   end
 
   def following_records
-    @records = @user.following_records.order('duration DESC').page(params[:page]).per(50)
+    @records = @user.following_records
+      .where('created_at >= ?', 1.week.ago)
+      .order('duration DESC')
+      .page(params[:page])
+      .per(50)
   end
 
   private
