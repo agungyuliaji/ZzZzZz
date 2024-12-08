@@ -49,35 +49,37 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#sleep!' do
-    let(:user) { create(:user) }
+  describe 'sleep operation functionality' do
+    describe '#sleep!' do
+      let(:user) { create(:user) }
 
-    it 'sets the clock_in_time to the current time' do
-      freeze_time
-      current_time = Time.current
-      user.sleep!(current_time)
-      expect(user.clock_in_time).to eq(current_time)
+      it 'sets the clock_in_time to the current time' do
+        freeze_time
+        current_time = Time.current
+        user.sleep!(current_time)
+        expect(user.clock_in_time).to eq(current_time)
+      end
     end
-  end
 
-  describe '#wake_up!' do
-    let(:user) { create(:user, clock_in_time: Time.current) }
+    describe '#wake_up!' do
+      let(:user) { create(:user, clock_in_time: Time.current) }
 
-    it 'sets the clock_out_time to nil' do
-      freeze_time
-      current_time = Time.current
-      user.wake_up!(current_time)
-      expect(user.clock_out_time).to eq(nil)
+      it 'sets the clock_out_time to nil' do
+        freeze_time
+        current_time = Time.current
+        user.wake_up!(current_time)
+        expect(user.clock_out_time).to eq(nil)
+      end
     end
-  end
 
-  describe '#reset!' do
-    let(:user) { create(:user, clock_in_time: Time.current, clock_out_time: Time.current) }
+    describe '#reset!' do
+      let(:user) { create(:user, clock_in_time: Time.current, clock_out_time: Time.current) }
 
-    it 'resets clock_in_time and clock_out_time to nil' do
-      user.reset!
-      expect(user.clock_in_time).to be_nil
-      expect(user.clock_out_time).to be_nil
+      it 'resets clock_in_time and clock_out_time to nil' do
+        user.reset!
+        expect(user.clock_in_time).to be_nil
+        expect(user.clock_out_time).to be_nil
+      end
     end
   end
 
