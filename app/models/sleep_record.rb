@@ -28,6 +28,6 @@ class SleepRecord < ApplicationRecord
   private
 
   def calculate_duration
-    self.duration = (clock_out_time - clock_in_time).to_i
+    self.duration = (clock_out_time - clock_in_time).round
   end
 end
