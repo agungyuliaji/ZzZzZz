@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'validations' do
-    subject { User.new(name: "John Doe") }
+    subject { build(:user) }
 
     it 'is valid with valid attributes' do
       expect(subject).to be_valid
@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'callbacks' do
-    let(:user) { User.create(name: "John Doe") }
+    let(:user) { create(:user) }
 
     context 'creates a sleep_record after saving when both clock_in_time and clock_out_time are present' do
       it '' do
@@ -63,7 +63,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '#sleep!' do
-    let(:user) { User.create(name: "John Doe") }
+    let(:user) { create(:user) }
 
     it 'sets the clock_in_time to the current time' do
       freeze_time
@@ -74,7 +74,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '#wake_up!' do
-    let(:user) { User.create(name: "John Doe", clock_in_time: Time.current) }
+    let(:user) { create(:user, clock_in_time: Time.current) }
 
     it 'sets the clock_out_time to nil' do
       freeze_time
@@ -85,7 +85,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '#reset!' do
-    let(:user) { User.create(name: "John Doe", clock_in_time: Time.current, clock_out_time: Time.current) }
+    let(:user) { create(:user, clock_in_time: Time.current, clock_out_time: Time.current) }
 
     it 'resets clock_in_time and clock_out_time to nil' do
       user.reset!

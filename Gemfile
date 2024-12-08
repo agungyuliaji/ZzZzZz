@@ -12,4 +12,5 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "annotaterb"
   gem "rspec-rails", "~> 7.0.0"
+  gem "factory_bot_rails"
 end
