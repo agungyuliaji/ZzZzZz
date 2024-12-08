@@ -1,24 +1,42 @@
-# README
+# Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- ruby: 3.3.6
+- rails: 8.0.0
+- database: SQLite... :)
 
-Things you may want to cover:
+```bash
+# setup everything including data seeds
+bin/setup
 
-* Ruby version
+# run..
+rails s
+```
 
-* System dependencies
+# Base Concept
 
-* Configuration
+```mermaid
+stateDiagram-v2
+  [*] --> User.rb
+  state User.rb {
+    [*] --> sleep
+    sleep --> wake_up
+    wake_up --> reset
+    reset --> sleep
+    wake_up --> completed_cycle
+    completed_cycle --> [*]
+  }
 
-* Database creation
+  User.rb --> SleepRecord.rb
+  state SleepRecord.rb {
+    [*] --> recordData
+    recordData: Record clock_in_time, clock_out_time, and duration
+    recordData --> [*]
+  }
 
-* Database initialization
+```
 
-* How to run the test suite
+# Postman Collection
 
-* Services (job queues, cache servers, search engines, etc.)
+Import this [Collection (v2.1)](doc/sleep_records.postman_collection.json) file.
 
-* Deployment instructions
-
-* ...
+![alt text](doc/postman_screenshot.png)
