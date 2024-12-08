@@ -1,0 +1,1 @@
+json.array! @records, :id, :clock_in_time, :clock_out_time, :duration, :created_at, :updated_at

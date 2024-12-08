@@ -105,6 +105,9 @@ GEM
     irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jbuilder (2.13.0)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
     json (2.9.0)
     language_server-protocol (3.17.0.3)
     logger (1.6.2)
@@ -293,6 +296,7 @@ DEPENDENCIES
   debug
   factory_bot_rails
   faker
+  jbuilder
   puma (>= 5.0)
   rails (~> 8.0.0)
   rspec-rails (~> 7.0.0)

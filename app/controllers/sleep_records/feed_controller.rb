@@ -2,6 +2,7 @@ class SleepRecords::FeedController < ApplicationController
   before_action :set_user
 
   def my_records
+    @records = @user.sleep_records.order('created_at DESC')
   end
 
   def following_records
