@@ -54,6 +54,11 @@ class User < ApplicationRecord
     following.include?(user)
   end
 
+  def following_records
+    followed_user_ids = self.following_relationships.pluck(:followed_id)
+    SleepRecord.where(user_id: followed_user_ids)
+  end
+
   private
 
   def validate_clock_out_time

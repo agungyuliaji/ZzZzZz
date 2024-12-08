@@ -6,6 +6,7 @@ class SleepRecords::FeedController < ApplicationController
   end
 
   def following_records
+    @records = @user.following_records.order('duration DESC')
   end
 
   private
