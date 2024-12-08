@@ -12,11 +12,19 @@
 class User < ApplicationRecord
   has_many :sleep_records
 
+  # I avoid using HABTM + simple join_table for some cases, the follow and friendship system is one of those cases.
+  has_many :following_relationships, foreign_key: :follower_id, class_name: 'Follow', dependent: :destroy
+  has_many :following, through: :following_relationships, source: :followed
+  has_many :follower_relationships, foreign_key: :followed_id, class_name: 'Follow', dependent: :destroy
+  has_many :followers, through: :follower_relationships, source: :follower
+
   validates :name, presence: true
   validate :validate_clock_out_time
 
   after_save :record_data
 
+  # Sleep Operations
+  # ==================================
   def sleep!(sleep_time = Time.current)
     update(clock_in_time: sleep_time)
   end
@@ -30,6 +38,20 @@ class User < ApplicationRecord
       clock_in_time: nil,
       clock_out_time: nil
     )
+  end
+
+  # Follows Unfollows
+  # ==================================
+  def follow(user)
+    following_relationships.create(followed_id: user.id) unless self == user || following.include?(user)
+  end
+
+  def unfollow(user)
+    following_relationships.find_by(followed_id: user.id)&.destroy
+  end
+
+  def following?(user)
+    following.include?(user)
   end
 
   private

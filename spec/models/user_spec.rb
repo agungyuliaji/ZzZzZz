@@ -80,4 +80,50 @@ RSpec.describe User, type: :model do
       expect(user.clock_out_time).to be_nil
     end
   end
+
+  describe 'follow/unfollow functionality' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+
+    describe '#follow' do
+      it 'allows a user to follow another user' do
+        user.follow(other_user)
+        expect(user.following).to include(other_user)
+      end
+
+      it 'does not allow a user to follow themselves' do
+        user.follow(user)
+        expect(user.following).to_not include(user)
+      end
+
+      it 'does not allow a user to follow the same user multiple times' do
+        user.follow(other_user)
+        user.follow(other_user) # Attempt to follow again
+        expect(user.following.count).to eq(1)
+      end
+    end
+
+    describe '#unfollow' do
+      it 'allows a user to unfollow another user' do
+        user.follow(other_user)
+        user.unfollow(other_user)
+        expect(user.following).to_not include(other_user)
+      end
+
+      it 'does not raise an error if unfollowing a user not followed' do
+        expect { user.unfollow(other_user) }.to_not raise_error
+      end
+    end
+
+    describe '#following?' do
+      it 'returns true if the user is following another user' do
+        user.follow(other_user)
+        expect(user.following?(other_user)).to be_truthy
+      end
+
+      it 'returns false if the user is not following another user' do
+        expect(user.following?(other_user)).to be_falsey
+      end
+    end
+  end
 end
