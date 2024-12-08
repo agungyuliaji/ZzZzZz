@@ -17,5 +17,27 @@
 require 'rails_helper'
 
 RSpec.describe Follow, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    subject { build(:follow) }
+
+    it 'is not valid without a follower_id' do
+      subject.follower_id = nil
+      expect(subject).to_not be_valid
+      expect(subject.errors[:follower_id]).to include("can't be blank")
+    end
+
+    it 'is not valid without a followed_id' do
+      subject.followed_id = nil
+      expect(subject).to_not be_valid
+      expect(subject.errors[:followed_id]).to include("can't be blank")
+    end
+
+    it 'is not valid if a user tries to follow themselves' do
+      user = create(:user)
+      subject.follower = user
+      subject.followed = user
+      expect(subject).to_not be_valid
+      expect(subject.errors[:follower_id]).to include("can't follow themselves")
+    end
+  end
 end
