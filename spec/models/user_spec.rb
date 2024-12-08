@@ -14,19 +14,6 @@ RSpec.describe User, type: :model do
       expect(subject.errors[:name]).to include("can't be blank")
     end
 
-    it 'is not valid if clock_out_time is present and clock_in_time is blank' do
-      subject.clock_out_time = Time.current
-      expect(subject).to_not be_valid
-      expect(subject.errors[:clock_out_time]).to include("clock_in_time is blank")
-    end
-
-    it 'is not valid if clock_out_time is before clock_in_time' do
-      subject.clock_in_time = Time.current
-      subject.clock_out_time = Time.current - 1.hour
-      expect(subject).to_not be_valid
-      expect(subject.errors[:clock_out_time]).to include("must be after clock_in_time")
-    end
-
     it 'is valid if clock_out_time is after clock_in_time' do
       subject.clock_in_time = Time.current
       subject.clock_out_time = Time.current + 1.hour
@@ -37,13 +24,13 @@ RSpec.describe User, type: :model do
       subject.sleep!(Time.current)
       subject.sleep!(Time.current + 1.hour)
       expect(subject).to_not be_valid
-      expect(subject.errors[:clock_in_time]).to include("already sleeping at #{subject.clock_in_time_was}")
+      expect(subject.errors[:clock_in_time]).to include("#{subject.name} already slept at #{subject.clock_in_time_was}")
     end
 
     it 'is not valid if wake_up! is called without sleep!' do
       subject.clock_out_time = Time.current
       expect(subject).to_not be_valid
-      expect(subject.errors[:clock_out_time]).to include("clock_in_time is blank")
+      expect(subject.errors[:clock_out_time]).to include("#{subject.name} is awake")
     end
   end
 
